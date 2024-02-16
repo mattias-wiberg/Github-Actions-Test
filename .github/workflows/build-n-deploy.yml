@@ -1,0 +1,21 @@
+name: build-n-deploy
+on: push
+jobs:
+  build-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out reposity code
+        uses: actions/checkout@v3
+      - name: Setup Go environment
+        uses: actions/setup-go@v5.0.0
+      - run: echo "Installing dependencies"
+      - run: go get -d -v ./..
+      - run: echo "Running tests"
+      - run: go test ./...
+      - run: echo "Building go application"
+      - run: go build -o api .
+  deploy-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying Go app"
+    
