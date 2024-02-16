@@ -11,12 +11,13 @@ jobs:
         with:
           go-version: 1.21.3
       - run: echo "Installing dependencies"
-      - run: go get -d -v ./..
+      - run: go install
       - run: echo "Running tests"
       - run: go test ./...
       - run: echo "Building go application"
       - run: go build -o api .
   deploy-job:
     runs-on: ubuntu-latest
+    needs: build-job
     steps:
       - run: echo "Deploying Go app"
