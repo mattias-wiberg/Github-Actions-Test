@@ -4,7 +4,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out reposity code
+      - name: Checkout reposity code
         uses: actions/checkout@v3
       - name: Setup Go environment
         uses: actions/setup-go@v5.0.0
@@ -16,6 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Checkout reposity code
+        uses: actions/checkout@v3
+      - name: Setup Go environment
+        uses: actions/setup-go@v5.0.0
+        with:
+          go-version: 1.21.3
       - run: go install
       - run: go test ./...
   deploy:
