@@ -1,7 +1,7 @@
 name: build-n-deploy
 on: push
 jobs:
-  build-job:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out reposity code
@@ -10,14 +10,15 @@ jobs:
         uses: actions/setup-go@v5.0.0
         with:
           go-version: 1.21.3
-      - run: echo "Installing dependencies"
       - run: go install
-      - run: echo "Running tests"
-      - run: go test ./...
-      - run: echo "Building go application"
       - run: go build -o api .
-  deploy-job:
+  test:
     runs-on: ubuntu-latest
-    needs: build-job
+    needs: build
+    steps:
+      - run: go test ./...
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
     steps:
       - run: echo "Deploying Go app"
